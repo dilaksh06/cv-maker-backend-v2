@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 async function generatePDF(data) {
     try {
-        console.log("Data passed to generatePDF:", data);
+        // console.log("Data passed to generatePDF:", data);
 
         // Sanitize and ensure all sections exist even if empty
         const sanitizedData = {

@@ -1,21 +1,31 @@
 // utils/htmlRenderer.js
-import ejs from 'ejs';
-import fs from 'fs/promises';
-import path from 'path';
+import ejs from "ejs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
-const templatesDir = path.resolve("templates"); // folder where .ejs templates are
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const generateHTML = async ({ templateId, ...cvData }) => {
-    const filePath = path.join(templatesDir, `${templateId}.ejs`);
+export default async function generateHTML({ templateId, ...data }) {
+    const sanitizedData = {
+        personalInfo: data.personalInfo || {},
+        aboutMe: data.aboutMe || "No information provided.",
+        hardSkills: Array.isArray(data.hardSkills) ? data.hardSkills : [],
+        languages: Array.isArray(data.languages) ? data.languages : [],
+        workExperience: Array.isArray(data.workExperience) ? data.workExperience : [],
+        academicQualifications: Array.isArray(data.academicQualifications) ? data.academicQualifications : [],
+        projects: Array.isArray(data.projects) ? data.projects : [],
+        publications: Array.isArray(data.publications) ? data.publications : [],
+        recommendations: Array.isArray(data.recommendations) ? data.recommendations : [],
+    };
+
+    const templatePath = join(__dirname, `../templates/${templateId}.ejs`);
 
     try {
-        const templateContent = await fs.readFile(filePath, 'utf-8');
-        const renderedHTML = ejs.render(templateContent, cvData); // inject user data
-        return renderedHTML;
-    } catch (error) {
-        console.error("EJS render error:", error);
-        throw error;
+        const html = await ejs.renderFile(templatePath, sanitizedData);
+        return html;
+    } catch (err) {
+        console.error("EJS render error:", err);
+        throw err;
     }
-};
-
-export default generateHTML;
+}
