@@ -1,0 +1,41 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "server.js",
+            "use": "@vercel/node",
+            "config": {
+                "maxLambdaSize": "50mb",
+                "includeFiles": [
+                    "templates/**/*.ejs",
+                    "node_modules/@sparticuz/chromium-min/**/*"
+                ]
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/generate",
+            "methods": [
+                "OPTIONS"
+            ],
+            "dest": "/api/handle-options.js"
+        },
+        {
+            "src": "/generate",
+            "methods": [
+                "POST"
+            ],
+            "dest": "/server.js",
+            "headers": {
+                "Access-Control-Allow-Origin": "https://dpk-resumi.vercel.app",
+                "Access-Control-Allow-Methods": "POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type"
+            }
+        },
+        {
+            "src": "/",
+            "dest": "/server.js"
+        }
+    ]
+}

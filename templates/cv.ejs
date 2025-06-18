@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= personalInfo.name %>'s Resume
+    </title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto+Condensed:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+            --border-radius: 5px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 30px 40px;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 2.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            font-family: 'Roboto Condensed', sans-serif;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            font-family: 'Roboto Condensed', sans-serif;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .contact-item i {
+            color: var(--primary-color);
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .main-content {
+            padding: 30px 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .about-me {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .skill-category {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .work-item,
+        .project-item,
+        .education-item,
+        .publication-item,
+        .recommendation-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .work-item:last-child,
+        .project-item:last-child,
+        .education-item:last-child,
+        .publication-item:last-child,
+        .recommendation-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--light-color);
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+
+            header,
+            .main-content {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <%= personalInfo.name %>
+            </h1>
+            <% if (personalInfo.address || personalInfo.phoneNumbers || personalInfo.email || personalInfo.linkedin ||
+                personalInfo.github) { %>
+                <div class="contact-info">
+                    <% if (personalInfo.address) { %>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>
+                                <%= personalInfo.address %>
+                            </span>
+                        </div>
+                        <% } %>
+                            <% if (personalInfo.phoneNumbers && personalInfo.phoneNumbers.length) { %>
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>
+                                        <%= personalInfo.phoneNumbers.join(', ') %></span>
+                        </div>
+                    <% } %>
+                    <% if (personalInfo.email) { %>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:<%= personalInfo.email %>"><%= personalInfo.email %></a>
+                        </div>
+                    <% } %>
+                    <% if (personalInfo.linkedin) { %>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="<%= personalInfo.linkedin %>" target="_blank">LinkedIn Profile</a>
+                        </div>
+                    <% } %>
+                    <% if (personalInfo.github) { %>
+                        <div class="contact-item">
+                            <i class="fab fa-github"></i>
+                            <a href="<%= personalInfo.github %>" target="_blank">GitHub Profile</a>
+                        </div>
+                    <% } %>
+                    <% if (personalInfo.portfolio) { %>
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <a href="<%= personalInfo.portfolio %>" target="_blank">Portfolio</a>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+        </header>
+
+        <div class="main-content">
+            <% if (aboutMe) { %>
+                <div class="section about-me">
+                    <h2>About Me</h2>
+                    <p><%= aboutMe %></p>
+                </div>
+            <% } %>
+
+            <% if (workExperience && workExperience.length) { %>
+                <div class="section work-experience">
+                    <h2>Work Experience</h2>
+                    <% workExperience.forEach(function(experience) { %>
+                        <div class="work-item">
+                            <h3><%= experience.jobTitle %></h3>
+                            <div class="meta-info">
+                                <% if (experience.supervisor) { %>
+                                    <div class="meta-item">
+                                        <i class="fas fa-user-tie"></i>
+                                        <span><%= experience.supervisor %></span>
+                                    </div>
+                                <% } %>
+                                <% if (experience.city || experience.country) { %>
+                                    <div class="meta-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span><% if (experience.city) { %><%= experience.city %><% } %><% if (experience.city && experience.country) { %>, <% } %><% if (experience.country) { %><%= experience.country %><% } %></span>
+                                    </div>
+                                <% } %>
+                                <% if (experience.dateRange) { %>
+                                    <div class="meta-item">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <span><%= experience.dateRange %></span>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <% if (experience.responsibilities && experience.responsibilities.length) { %>
+                                <ul>
+                                    <% experience.responsibilities.forEach(function(responsibility) { %>
+                                        <li><%= responsibility %></li>
+                                    <% }); %>
+                                </ul>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (academicQualifications && academicQualifications.length) { %>
+                <div class="section education">
+                    <h2>Education</h2>
+                    <% academicQualifications.forEach(function(education) { %>
+                        <div class="education-item">
+                            <h3><%= education.degree %></h3>
+                            <div class="meta-info">
+                                <div class="meta-item">
+                                    <i class="fas fa-university"></i>
+                                    <span><%= education.institution %></span>
+                                </div>
+                                <% if (education.dateRange) { %>
+                                    <div class="meta-item">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <span><%= education.dateRange %></span>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <% if (education.website) { %>
+                                <div class="meta-item">
+                                    <i class="fas fa-link"></i>
+                                    <a href="<%= education.website %>" target="_blank"><%= education.website %></a>
+                                </div>
+                            <% } %>
+                            <% if (education.additionalLinks && education.additionalLinks.length && education.additionalLinks[0]) { %>
+                                <div class="meta-item">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>
+                                        <% education.additionalLinks.forEach(function(link, index) { %>
+                                            <% if (link) { %>
+                                                <a href="<%= link %>" target="_blank"><%= link %></a><% if (index < education.additionalLinks.length - 1) { %>, <% } %>
+                                            <% } %>
+                                        <% }); %>
+                                    </span>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (hardSkills && hardSkills.length) { %>
+                <div class="section skills">
+                    <h2>Skills</h2>
+                    <div class="skills-container">
+                        <div class="skill-category">
+                            <ul>
+                                <% hardSkills.forEach(function(skill) { %>
+                                    <li><%= skill %></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if (projects && projects.length) { %>
+                <div class="section projects">
+                    <h2>Projects</h2>
+                    <% projects.forEach(function(project) { %>
+                        <div class="project-item">
+                            <h3><%= project.title %></h3>
+                            <% if (project.description) { %>
+                                <p><%= project.description %></p>
+                            <% } %>
+                            <div class="meta-info">
+                                <% if (project.languages && project.languages.length) { %>
+                                    <div class="meta-item">
+                                        <i class="fas fa-code"></i>
+                                        <span><%= project.languages.join(' , ') %></span>
+                                    </div>
+                                <% } %>
+                                <% if (project.algorithms && project.algorithms.length) { %>
+                                    <div class="meta-item">
+                                        <i class="fas fa-project-diagram"></i>
+                                        <span><%= project.algorithms.join(' , ') %></span>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <% if (project.links && project.links.length) { %>
+                                <div class="meta-item">
+                                    <i class="fas fa-link"></i>
+                                    <span>
+                                        <% project.links.forEach(function(link, index) { %>
+                                            <a href="<%= link %>" target="_blank"><%= link %></a><% if (index < project.links.length - 1) { %>, <% } %>
+                                        <% }); %>
+                                    </span>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (publications && publications.length) { %>
+                <div class="section publications">
+                    <h2>Publications</h2>
+                    <% publications.forEach(function(publication) { %>
+                        <div class="publication-item">
+                            <h3><%= publication.title %></h3>
+                            <div class="meta-info">
+                                <% if (publication.year) { %>
+                                    <div class="meta-item">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <span><%= publication.year %></span>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <% if (publication.description) { %>
+                                <p><%= publication.description %></p>
+                            <% } %>
+                            <% if (publication.link) { %>
+                                <div class="meta-item">
+                                    <i class="fas fa-link"></i>
+                                    <a href="<%= publication.link %>" target="_blank"><%= publication.link %></a>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (recommendations && recommendations.length) { %>
+                <div class="section recommendations">
+                    <h2>Recommendations</h2>
+                    <% recommendations.forEach(function(recommendation) { %>
+                        <div class="recommendation-item">
+                            <h3><%= recommendation.name %></h3>
+                            <div class="meta-info">
+                                <% if (recommendation.profession) { %>
+                                    <div class="meta-item">
+                                        <i class="fas fa-briefcase"></i>
+                                        <span><%= recommendation.profession %></span>
+                                    </div>
+                                <% } %>
+                                <% if (recommendation.institute) { %>
+                                    <div class="meta-item">
+                                        <i class="fas fa-university"></i>
+                                        <span><%= recommendation.institute %></span>
+                                    </div>
+                                <% } %>
+                                <% if (recommendation.phone) { %>
+                                    <div class="meta-item">
+                                        <i class="fas fa-phone"></i>
+                                        <span><%= recommendation.phone %></span>
+                                    </div>
+                                <% } %>
+                                <% if (recommendation.email) { %>
+                                    <div class="meta-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <a href="mailto:<%= recommendation.email %>"><%= recommendation.email %></a>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+
+            <% if (languages && languages.length) { %>
+                <div class="section languages">
+                    <h2>Languages</h2>
+                    <div class="meta-info">
+                        <% languages.forEach(function(language) { %>
+                            <div class="tag"><%= language %></div>
+                        <% }); %>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

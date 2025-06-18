@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= personalInfo.name %>'s CV
+    </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        .contact-info,
+        .skills,
+        .languages,
+        .education,
+        .work-experience,
+        .projects,
+        .publications,
+        .recommendations {
+            margin-bottom: 20px;
+        }
+
+        .skills ul,
+        .languages ul,
+        .projects ul,
+        .publications ul,
+        .recommendations ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recommendation-item,
+        .work-item,
+        .project-item,
+        .education-item,
+        .publication-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Personal Info Section -->
+        <div class="personal-info">
+            <h1>
+                <%= personalInfo.name %>
+            </h1>
+            <p><strong>Email:</strong>
+                <%= personalInfo.email %>
+            </p>
+            <p><strong>Phone:</strong>
+                <%= personalInfo.phoneNumbers.join(', ') %></p>
+            <p><strong>LinkedIn:</strong> <a href="<%= personalInfo.linkedin %>"><%= personalInfo.linkedin %></a></p>
+            <p><strong>Portfolio:</strong> <a href="<%= personalInfo.portfolio %>"><%= personalInfo.portfolio %></a></p>
+            <p><strong>GitHub:</strong> <a href="<%= personalInfo.github %>"><%= personalInfo.github %></a></p>
+            <p><strong>Address:</strong> <%= personalInfo.address %></p>
+        </div>
+
+        <!-- About Me Section -->
+        <div class="about-me">
+            <h2>About Me</h2>
+            <p><%= aboutMe %></p>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="skills">
+            <h2>Skills</h2>
+            <ul>
+                <% hardSkills.forEach(function(skill) { %>
+                    <li><%= skill %></li>
+                <% }); %>
+            </ul>
+        </div>
+
+        <!-- Languages Section -->
+        <div class="languages">
+            <h2>Languages</h2>
+            <ul>
+                <% languages.forEach(function(language) { %>
+                    <li><%= language %></li>
+                <% }); %>
+            </ul>
+        </div>
+
+        <!-- Work Experience Section -->
+        <div class="work-experience">
+            <h2>Work Experience</h2>
+            <% workExperience.forEach(function(experience) { %>
+                <div class="work-item">
+                    <h3><%= experience.jobTitle %> at <%= experience.supervisor %></h3>
+                    <p><strong>Location:</strong> <%= experience.city %>, <%= experience.country %></p>
+                    <p><strong>Date:</strong> <%= experience.dateRange %></p>
+                    <ul>
+                        <% experience.responsibilities.forEach(function(responsibility) { %>
+                            <li><%= responsibility %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- Education Section -->
+        <div class="education">
+            <h2>Education</h2>
+            <% academicQualifications.forEach(function(education) { %>
+                <div class="education-item">
+                    <h3><%= education.degree %> from <%= education.institution %></h3>
+                    <p><strong>Period:</strong> <%= education.dateRange %></p>
+                    <p><strong>Website:</strong> <a href="<%= education.website %>"><%= education.website %></a></p>
+                    <% if (education.additionalLinks && education.additionalLinks.length) { %>
+                        <p><strong>Links:</strong> 
+                            <ul>
+                                <% education.additionalLinks.forEach(function(link) { %>
+                                    <li><a href="<%= link %>"><%= link %></a></li>
+                                <% }); %>
+                            </ul>
+                        </p>
+                    <% } %>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="projects">
+            <h2>Projects</h2>
+            <% projects.forEach(function(project) { %>
+                <div class="project-item">
+                    <h3><%= project.title %></h3>
+                    <p><strong>Description:</strong> <%= project.description %></p>
+                    <p><strong>Languages:</strong> <%= project.languages.join(' , ') %></p>
+                    <p><strong>Algorithms:</strong> <%= project.algorithms.join(' , ') %></p>
+                    <p><strong>Links:</strong> 
+                        <ul>
+                            <% project.links.forEach(function(link) { %>
+                                <li><a href="<%= link %>"><%= link %></a></li>
+                            <% }); %>
+                        </ul>
+                    </p>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- Publications Section -->
+        <div class="publications">
+            <h2>Publications</h2>
+            <% publications.forEach(function(publication) { %>
+                <div class="publication-item">
+                    <h3><%= publication.title %> (<%= publication.year %>)</h3>
+                    <p><strong>Description:</strong> <%= publication.description %></p>
+                    <p><strong>Link:</strong> <a href="<%= publication.link %>"><%= publication.link %></a></p>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="recommendations">
+            <h2>Recommendations</h2>
+            <% recommendations.forEach(function(recommendation) { %>
+                <div class="recommendation-item">
+                    <h3><%= recommendation.name %>, <%= recommendation.profession %> at <%= recommendation.institute %></h3>
+                    <p><strong>Phone:</strong> <%= recommendation.phone %></p>
+                    <p><strong>Email:</strong> <%= recommendation.email %></p>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</body>
+</html>

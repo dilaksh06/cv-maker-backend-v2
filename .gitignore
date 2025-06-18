@@ -1,0 +1,56 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.*.local
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Editor-specific
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Debug and crash dumps
+*.pid
+*.seed
+*.pid.lock
+*.tgz
+
+# npm pack artifacts
+*.tgz
+
+# Optional npm cache directory
+.npm/
+
+# EJS compiled files (if any)
+*.ejs~
+
+# Coverage reports
+coverage/
+
+# PM2 logs or process files
+pids/
+*.pid
+
+# Vercel local deployment cache
+.vercel/
