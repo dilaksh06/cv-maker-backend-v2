@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= personalInfo.name %> - Executive Resume</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Source Sans Pro", sans-serif;
+        line-height: 1.6;
+        color: #2c3e50;
+        background: #ffffff;
+        font-size: 13px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 270px 1fr;
+        gap: 0;
+      }
+
+      .sidebar {
+        background: #f8f9fa;
+        padding: 20px 15px;
+        border-right: 2px solid #34495e;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .main-content {
+        padding: 20px 25px;
+        background: #ffffff;
+      }
+
+      .profile-section {
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      .profile-name {
+        font-family: "Crimson Text", serif;
+        font-size: 1.7rem;
+        font-weight: 700;
+        color: #2c3e50;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
+        word-wrap: break-word;
+      }
+
+      .sidebar-heading {
+        font-family: "Crimson Text", serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        border-bottom: 2px solid #34495e;
+        padding-bottom: 4px;
+      }
+
+      .contact-item {
+        margin-bottom: 6px;
+        display: flex;
+        align-items: flex-start;
+        font-size: 0.85rem;
+      }
+
+      .contact-label {
+        font-weight: 600;
+        color: #34495e;
+        min-width: 60px;
+        margin-right: 8px;
+        flex-shrink: 0;
+      }
+
+      .contact-value {
+        flex: 1;
+        word-break: break-word;
+      }
+
+      .contact-value a {
+        color: #2c3e50;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+
+      .contact-value a:hover {
+        border-bottom: 1px solid #2c3e50;
+      }
+
+      .skills-section,
+      .languages-section {
+        page-break-inside: avoid;
+      }
+
+      .skill-item,
+      .language-item {
+        background: #ffffff;
+        padding: 5px 8px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        border-left: 3px solid #34495e;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .language-item {
+        border-left-color: #7f8c8d;
+      }
+
+      .section {
+        margin-bottom: 25px;
+        page-break-inside: avoid;
+      }
+
+      .section-title {
+        font-family: "Crimson Text", serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        padding-bottom: 6px;
+        border-bottom: 2px solid #34495e;
+      }
+
+      .summary-content {
+        font-size: 1rem;
+        line-height: 1.6;
+        text-align: justify;
+      }
+
+      .experience-item,
+      .education-item,
+      .project-item,
+      .publication-item,
+      .reference-item {
+        margin-bottom: 20px;
+        page-break-inside: avoid;
+      }
+
+      .job-header,
+      .degree-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+
+      .job-title,
+      .degree-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .job-company,
+      .institution {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #34495e;
+      }
+
+      .job-location,
+      .degree-date,
+      .job-date {
+        font-size: 0.85rem;
+        font-style: italic;
+        color: #7f8c8d;
+      }
+
+      .responsibilities {
+        padding-left: 20px;
+        list-style-type: disc;
+        font-size: 0.95rem;
+      }
+
+      .project-title,
+      .publication-title,
+      .reference-name {
+        font-size: 1.15rem;
+        font-weight: 600;
+      }
+
+      .project-description,
+      .publication-description {
+        text-align: justify;
+        font-size: 0.95rem;
+        margin-top: 5px;
+      }
+
+      .project-tech-section,
+      .publication-year {
+        font-size: 0.9rem;
+        font-style: italic;
+        margin-top: 4px;
+      }
+
+      .project-links li,
+      .education-links li,
+      .publication-link,
+      .reference-contact {
+        font-size: 0.85rem;
+      }
+
+      .reference-contact span {
+        display: inline-block;
+        margin-right: 15px;
+      }
+
+      @media print {
+        body {
+          font-size: 11px;
+        }
+
+        @page {
+          margin: 0.5in;
+        }
+
+        .container {
+          grid-template-columns: 250px 1fr;
+        }
+
+        .sidebar {
+          padding: 15px 10px;
+        }
+
+        .main-content {
+          padding: 15px 20px;
+        }
+
+        .profile-name {
+          font-size: 1.5rem;
+        }
+
+        .section-title {
+          font-size: 1.3rem;
+        }
+
+        .job-title,
+        .degree-title {
+          font-size: 1.1rem;
+        }
+
+        .contact-label,
+        .job-location,
+        .job-date,
+        .degree-date {
+          font-size: 10px;
+        }
+
+        .project-links a,
+        .education-links a,
+        .publication-link {
+          font-size: 10px;
+          padding: 2px 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <div class="profile-section">
+          <h1 class="profile-name"><%= personalInfo.name %></h1>
+        </div>
+
+        <div class="contact-section">
+          <h2 class="sidebar-heading">Contact</h2>
+          <div class="contact-item">
+            <span class="contact-label">Email:</span>
+            <span class="contact-value"><%= personalInfo.email %></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Phone:</span>
+            <span class="contact-value"
+              ><%= personalInfo.phoneNumbers.join(', ') %></span
+            >
+          </div>
+          <% if (personalInfo.linkedin) { %>
+          <div class="contact-item">
+            <span class="contact-label">LinkedIn:</span>
+            <span class="contact-value">
+              <a href="<%= personalInfo.linkedin %>" target="_blank"
+                >LinkedIn</a
+              >
+            </span>
+          </div>
+          <% } %> <% if (personalInfo.portfolio) { %>
+          <div class="contact-item">
+            <span class="contact-label">Portfolio:</span>
+            <span class="contact-value">
+              <a href="<%= personalInfo.portfolio %>" target="_blank"
+                >Portfolio</a
+              >
+            </span>
+          </div>
+          <% } %> <% if (personalInfo.github) { %>
+          <div class="contact-item">
+            <span class="contact-label">GitHub:</span>
+            <span class="contact-value">
+              <a href="<%= personalInfo.github %>" target="_blank">GitHub</a>
+            </span>
+          </div>
+          <% } %>
+          <div class="contact-item">
+            <span class="contact-label">Address:</span>
+            <span class="contact-value"><%= personalInfo.address %></span>
+          </div>
+        </div>
+
+        <% if (hardSkills?.length) { %>
+        <div class="skills-section">
+          <h2 class="sidebar-heading">Skills</h2>
+          <% hardSkills.forEach(skill => { %>
+          <div class="skill-item"><%= skill %></div>
+          <% }) %>
+        </div>
+        <% } %> <% if (languages?.length) { %>
+        <div class="languages-section">
+          <h2 class="sidebar-heading">Languages</h2>
+          <% languages.forEach(language => { %>
+          <div class="language-item"><%= language %></div>
+          <% }) %>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="main-content">
+        <% if (aboutMe) { %>
+        <div class="section">
+          <h2 class="section-title">Professional Summary</h2>
+          <div class="summary-content"><%= aboutMe %></div>
+        </div>
+        <% } %> <% if (workExperience?.length) { %>
+        <div class="section">
+          <h2 class="section-title">Experience</h2>
+          <% workExperience.forEach(job => { %>
+          <div class="experience-item">
+            <div class="job-header">
+              <div>
+                <div class="job-title"><%= job.jobTitle %></div>
+                <div class="job-company"><%= job.supervisor %></div>
+                <div class="job-location">
+                  <%= job.city %>, <%= job.country %>
+                </div>
+              </div>
+              <div class="job-date"><%= job.dateRange %></div>
+            </div>
+            <ul class="responsibilities">
+              <% job.responsibilities.forEach(r => { %>
+              <li><%= r %></li>
+              <% }) %>
+            </ul>
+          </div>
+          <% }) %>
+        </div>
+        <% } %> <% if (academicQualifications?.length) { %>
+        <div class="section">
+          <h2 class="section-title">Education</h2>
+          <% academicQualifications.forEach(edu => { %>
+          <div class="education-item">
+            <div class="degree-header">
+              <div class="degree-title"><%= edu.degree %></div>
+              <div class="degree-date"><%= edu.dateRange %></div>
+            </div>
+            <div class="institution"><%= edu.institution %></div>
+            <% if (edu.website || edu.additionalLinks?.length) { %>
+            <ul class="education-links">
+              <% if (edu.website) { %>
+              <li><a href="<%= edu.website %>" target="_blank">Website</a></li>
+              <% } %> <% edu.additionalLinks?.forEach(link => { %>
+              <li><a href="<%= link %>" target="_blank">Resource</a></li>
+              <% }) %>
+            </ul>
+            <% } %>
+          </div>
+          <% }) %>
+        </div>
+        <% } %> <% if (projects?.length) { %>
+        <div class="section">
+          <h2 class="section-title">Projects</h2>
+          <% projects.forEach(p => { %>
+          <div class="project-item">
+            <div class="project-title"><%= p.title %></div>
+            <div class="project-description"><%= p.description %></div>
+            <% if (p.languages?.length) { %>
+            <div class="project-tech-section">
+              Technologies: <%= p.languages.join(', ') %>
+            </div>
+            <% } %> <% if (p.algorithms?.length) { %>
+            <div class="project-tech-section">
+              Methods: <%= p.algorithms.join(', ') %>
+            </div>
+            <% } %> <% if (p.links?.length) { %>
+            <ul class="project-links">
+              <% p.links.forEach(link => { %>
+              <li><a href="<%= link %>" target="_blank">View</a></li>
+              <% }) %>
+            </ul>
+            <% } %>
+          </div>
+          <% }) %>
+        </div>
+        <% } %> <% if (publications?.length) { %>
+        <div class="section">
+          <h2 class="section-title">Publications</h2>
+          <% publications.forEach(pub => { %>
+          <div class="publication-item">
+            <div class="publication-title">
+              <%= pub.title %>
+              <span class="publication-year">(<%= pub.year %>)</span>
+            </div>
+            <div class="publication-description"><%= pub.description %></div>
+            <% if (pub.link) { %>
+            <a href="<%= pub.link %>" class="publication-link" target="_blank"
+              >View</a
+            >
+            <% } %>
+          </div>
+          <% }) %>
+        </div>
+        <% } %> <% if (recommendations?.length) { %>
+        <div class="section">
+          <h2 class="section-title">References</h2>
+          <% recommendations.forEach(ref => { %>
+          <div class="reference-item">
+            <div class="reference-name"><%= ref.name %></div>
+            <div class="reference-position">
+              <%= ref.profession %> at <%= ref.institute %>
+            </div>
+            <div class="reference-contact">
+              <% if (ref.phone) { %><span>📞 <%= ref.phone %></span><% } %> <%
+              if (ref.email) { %><span>📧 <%= ref.email %></span><% } %>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>

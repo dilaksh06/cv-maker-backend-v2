@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= personalInfo.name %> - Resume</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600;700&family=Open+Sans:wght@400;600&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Open Sans", sans-serif;
+        font-size: 13px;
+        color: #2c3e50;
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+        line-height: 1.6;
+      }
+
+      .header {
+        border-bottom: 2px solid #2c3e50;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+      }
+
+      .name {
+        font-family: "Crimson Text", serif;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #666;
+      }
+
+      .contact {
+        font-size: 12px;
+        margin-top: 6px;
+      }
+
+      .contact span {
+        margin-right: 12px;
+        display: inline-block;
+      }
+
+      .section {
+        margin-top: 25px;
+        page-break-inside: avoid;
+      }
+
+      .section-title {
+        font-family: "Crimson Text", serif;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        padding-bottom: 2px;
+        text-transform: uppercase;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .summary {
+        margin-top: 10px;
+        text-align: justify;
+      }
+
+      .item {
+        margin-bottom: 12px;
+      }
+
+      .item-title {
+        font-weight: 600;
+        font-size: 13.5px;
+      }
+
+      .item-sub {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 4px;
+      }
+
+      .list {
+        padding-left: 20px;
+        margin-top: 5px;
+      }
+
+      .list li {
+        margin-bottom: 4px;
+      }
+
+      .link {
+        color: #2c3e50;
+        font-size: 12px;
+        text-decoration: none;
+      }
+
+      .label {
+        font-weight: 600;
+      }
+
+      @media print {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          font-size: 12px;
+          padding: 10mm;
+        }
+
+        .section {
+          page-break-inside: avoid;
+          margin-top: 20px;
+        }
+
+        .section-title {
+          margin-top: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="name"><%= personalInfo.name %></div>
+      <div class="title">Resume</div>
+      <div class="contact">
+        <span><%= personalInfo.email %></span>
+        <span><%= personalInfo.phoneNumbers.join(' / ') %></span>
+        <% if (personalInfo.linkedin) { %>
+        <span
+          ><a class="link" href="<%= personalInfo.linkedin %>"
+            >LinkedIn</a
+          ></span
+        >
+        <% } %> <% if (personalInfo.github) { %>
+        <span
+          ><a class="link" href="<%= personalInfo.github %>">GitHub</a></span
+        >
+        <% } %> <% if (personalInfo.portfolio) { %>
+        <span
+          ><a class="link" href="<%= personalInfo.portfolio %>"
+            >Portfolio</a
+          ></span
+        >
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section">
+      <div class="section-title">Professional Summary</div>
+      <div class="summary"><%= aboutMe %></div>
+    </div>
+
+    <!-- Experience -->
+    <div class="section">
+      <div class="section-title">Experience</div>
+      <% workExperience.forEach(function(exp) { %>
+      <div class="item">
+        <div class="item-title">
+          <%= exp.jobTitle %> — <%= exp.supervisor %>
+        </div>
+        <div class="item-sub">
+          <%= exp.city %>, <%= exp.country %> — <%= exp.dateRange %>
+        </div>
+        <ul class="list">
+          <% exp.responsibilities.forEach(function(resp) { %>
+          <li><%= resp %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <% }) %>
+    </div>
+
+    <!-- Education -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <% academicQualifications.forEach(function(edu) { %>
+      <div class="item">
+        <div class="item-title"><%= edu.degree %></div>
+        <div class="item-sub">
+          <%= edu.institution %> — <%= edu.dateRange %>
+        </div>
+        <% if (edu.website) { %>
+        <div><a class="link" href="<%= edu.website %>">Website</a></div>
+        <% } %>
+      </div>
+      <% }) %>
+    </div>
+
+    <!-- Projects -->
+    <div class="section">
+      <div class="section-title">Projects</div>
+      <% projects.forEach(function(project) { %>
+      <div class="item">
+        <div class="item-title"><%= project.title %></div>
+        <div class="summary"><%= project.description %></div>
+        <div>
+          <span class="label">Tech:</span> <%= project.languages.join(', ') %>
+        </div>
+        <% if (project.algorithms.length) { %>
+        <div>
+          <span class="label">Methods:</span> <%= project.algorithms.join(', ')
+          %>
+        </div>
+        <% } %> <% project.links.forEach(function(link) { %>
+        <a class="link" href="<%= link %>">View</a>
+        <% }) %>
+      </div>
+      <% }) %>
+    </div>
+
+    <!-- Publications -->
+    <% if (publications.length) { %>
+    <div class="section">
+      <div class="section-title">Publications</div>
+      <% publications.forEach(function(pub) { %>
+      <div class="item">
+        <div class="item-title"><%= pub.title %> (<%= pub.year %>)</div>
+        <div class="summary"><%= pub.description %></div>
+        <a class="link" href="<%= pub.link %>">Link</a>
+      </div>
+      <% }) %>
+    </div>
+    <% } %>
+
+    <!-- References -->
+    <% if (recommendations.length) { %>
+    <div class="section">
+      <div class="section-title">References</div>
+      <% recommendations.forEach(function(ref) { %>
+      <div class="item">
+        <div class="item-title"><%= ref.name %></div>
+        <div class="item-sub"><%= ref.profession %> — <%= ref.institute %></div>
+        <div class="item-sub">
+          Phone: <%= ref.phone %> | Email: <%= ref.email %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } %>
+  </body>
+</html>

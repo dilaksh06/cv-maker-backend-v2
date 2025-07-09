@@ -34,10 +34,16 @@ router.post("/", async (req, res) => {
 
         await page.setContent(html, { waitUntil: "networkidle0" });
 
-        const pdfBuffer = await page.pdf({
-            format: "A4",
-            printBackground: true,
-        });
+       const pdfBuffer = await page.pdf({
+    format: "A4",
+    printBackground: true,
+    margin: {
+        top: "5mm",
+        bottom: "5mm",
+        left: "5mm",
+        right: "5mm",
+    },
+});
 
         await browser.close();
 

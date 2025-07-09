@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= personalInfo.name %>'s Resume</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #ffffff;
+      }
+
+      .container {
+        max-width: 850px;
+        margin: 0 auto;
+        background: white;
+        min-height: 100vh;
+      }
+
+      /* Header Section */
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 50px;
+        text-align: center;
+        position: relative;
+      }
+
+      .header::after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 20px solid #764ba2;
+      }
+
+      .header h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        letter-spacing: -0.02em;
+      }
+
+      .header .title {
+        font-size: 1.2rem;
+        font-weight: 300;
+        opacity: 0.9;
+        margin-bottom: 25px;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        opacity: 0.95;
+      }
+
+      .contact-item strong {
+        margin-right: 8px;
+      }
+
+      .contact-item a {
+        color: white;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        transition: border-bottom 0.3s ease;
+      }
+
+      .contact-item a:hover {
+        border-bottom: 1px solid white;
+      }
+
+      /* Main Content */
+      .main-content {
+        padding: 50px 50px 40px;
+      }
+
+      .section {
+        margin-bottom: 40px;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 8px;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 2px;
+      }
+
+      /* About Me Section */
+      .about-content {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #555;
+        text-align: justify;
+      }
+
+      /* Skills Section */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+      }
+
+      .skill-item {
+        background: #f8f9fa;
+        padding: 12px 18px;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .skill-item:hover {
+        background: #e9ecef;
+        transform: translateX(2px);
+      }
+
+      /* Languages Section */
+      .languages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+
+      .language-item {
+        background: #fff5f5;
+        padding: 12px 18px;
+        border-radius: 8px;
+        border-left: 4px solid #e53e3e;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      /* Work Experience Section */
+      .experience-item {
+        background: #fafafa;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        position: relative;
+      }
+
+      .experience-item::before {
+        content: "";
+        position: absolute;
+        top: 25px;
+        left: 0;
+        width: 4px;
+        height: 60px;
+        background: linear-gradient(180deg, #667eea, #764ba2);
+        border-radius: 2px;
+      }
+
+      .job-header {
+        margin-bottom: 15px;
+      }
+
+      .job-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+      }
+
+      .job-company {
+        font-size: 1.1rem;
+        color: #667eea;
+        font-weight: 500;
+      }
+
+      .job-details {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .responsibilities {
+        list-style: none;
+        padding: 0;
+      }
+
+      .responsibilities li {
+        position: relative;
+        padding-left: 20px;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      .responsibilities li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: #667eea;
+        font-weight: bold;
+      }
+
+      /* Education Section */
+      .education-item {
+        background: #f8f9ff;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border: 1px solid #e6e9ff;
+      }
+
+      .degree-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+
+      .institution {
+        font-size: 1.1rem;
+        color: #667eea;
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+
+      .education-details {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 15px;
+      }
+
+      .education-links {
+        list-style: none;
+        padding: 0;
+      }
+
+      .education-links li {
+        display: inline-block;
+        margin-right: 15px;
+      }
+
+      .education-links a {
+        color: #667eea;
+        text-decoration: none;
+        font-size: 0.9rem;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: rgba(102, 126, 234, 0.1);
+      }
+
+      /* Projects Section */
+      .project-item {
+        background: #f0f9ff;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border: 1px solid #e0f2fe;
+      }
+
+      .project-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 12px;
+      }
+
+      .project-description {
+        color: #555;
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .tech-tag {
+        background: #0ea5e9;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .project-links {
+        list-style: none;
+        padding: 0;
+      }
+
+      .project-links li {
+        display: inline-block;
+        margin-right: 15px;
+      }
+
+      .project-links a {
+        color: #0ea5e9;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      /* Publications Section */
+      .publication-item {
+        background: #fefce8;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border: 1px solid #fef3c7;
+      }
+
+      .publication-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+
+      .publication-year {
+        color: #d97706;
+        font-weight: 500;
+      }
+
+      .publication-description {
+        color: #555;
+        margin: 15px 0;
+        line-height: 1.6;
+      }
+
+      .publication-link {
+        color: #d97706;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: 6px;
+        background: rgba(217, 119, 6, 0.1);
+      }
+
+      /* Recommendations Section */
+      .recommendation-item {
+        background: #f0fdf4;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border: 1px solid #dcfce7;
+      }
+
+      .recommender-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+
+      .recommender-position {
+        color: #059669;
+        font-weight: 500;
+        margin-bottom: 15px;
+      }
+
+      .recommender-contact {
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .recommender-contact span {
+        display: inline-block;
+        margin-right: 20px;
+      }
+
+      /* Print Styles */
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          color-adjust: exact;
+        }
+
+        .container {
+          max-width: none;
+          margin: 0;
+          box-shadow: none;
+        }
+
+        .header {
+          break-inside: avoid;
+        }
+
+        .section {
+          break-inside: avoid;
+        }
+
+        .experience-item,
+        .education-item,
+        .project-item,
+        .publication-item,
+        .recommendation-item {
+          break-inside: avoid;
+          margin-bottom: 15px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Header Section -->
+      <div class="header">
+        <h1><%= personalInfo.name %></h1>
+        <div class="title">Professional Resume</div>
+
+        <div class="contact-grid">
+          <div class="contact-item">
+            <strong>Email:</strong> <%= personalInfo.email %>
+          </div>
+          <div class="contact-item">
+            <strong>Phone:</strong> <%= personalInfo.phoneNumbers.join(', ') %>
+          </div>
+          <div class="contact-item">
+            <strong>LinkedIn:</strong>
+            <a href="<%= personalInfo.linkedin %>">Profile</a>
+          </div>
+          <div class="contact-item">
+            <strong>Portfolio:</strong>
+            <a href="<%= personalInfo.portfolio %>">View Work</a>
+          </div>
+          <div class="contact-item">
+            <strong>GitHub:</strong>
+            <a href="<%= personalInfo.github %>">Repository</a>
+          </div>
+          <div class="contact-item">
+            <strong>Location:</strong> <%= personalInfo.address %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- About Me Section -->
+        <div class="section">
+          <h2 class="section-title">Professional Summary</h2>
+          <div class="about-content"><%= aboutMe %></div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="section">
+          <h2 class="section-title">Technical Skills</h2>
+          <div class="skills-grid">
+            <% hardSkills.forEach(function(skill) { %>
+            <div class="skill-item"><%= skill %></div>
+            <% }); %>
+          </div>
+        </div>
+
+        <!-- Languages Section -->
+        <div class="section">
+          <h2 class="section-title">Languages</h2>
+          <div class="languages-grid">
+            <% languages.forEach(function(language) { %>
+            <div class="language-item"><%= language %></div>
+            <% }); %>
+          </div>
+        </div>
+
+        <!-- Work Experience Section -->
+        <div class="section">
+          <h2 class="section-title">Professional Experience</h2>
+          <% workExperience.forEach(function(experience) { %>
+          <div class="experience-item">
+            <div class="job-header">
+              <div class="job-title"><%= experience.jobTitle %></div>
+              <div class="job-company"><%= experience.supervisor %></div>
+            </div>
+            <div class="job-details">
+              <span><%= experience.city %>, <%= experience.country %></span>
+              <span><%= experience.dateRange %></span>
+            </div>
+            <ul class="responsibilities">
+              <% experience.responsibilities.forEach(function(responsibility) {
+              %>
+              <li><%= responsibility %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Education Section -->
+        <div class="section">
+          <h2 class="section-title">Education</h2>
+          <% academicQualifications.forEach(function(education) { %>
+          <div class="education-item">
+            <div class="degree-title"><%= education.degree %></div>
+            <div class="institution"><%= education.institution %></div>
+            <div class="education-details">
+              <strong>Period:</strong> <%= education.dateRange %>
+            </div>
+            <ul class="education-links">
+              <li>
+                <a href="<%= education.website %>">Institution Website</a>
+              </li>
+              <% if (education.additionalLinks &&
+              education.additionalLinks.length) { %> <%
+              education.additionalLinks.forEach(function(link) { %>
+              <li><a href="<%= link %>">Additional Resource</a></li>
+              <% }); %> <% } %>
+            </ul>
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="section">
+          <h2 class="section-title">Key Projects</h2>
+          <% projects.forEach(function(project) { %>
+          <div class="project-item">
+            <div class="project-title"><%= project.title %></div>
+            <div class="project-description"><%= project.description %></div>
+
+            <div class="project-tech">
+              <% project.languages.forEach(function(language) { %>
+              <span class="tech-tag"><%= language %></span>
+              <% }); %> <% project.algorithms.forEach(function(algorithm) { %>
+              <span class="tech-tag"><%= algorithm %></span>
+              <% }); %>
+            </div>
+
+            <ul class="project-links">
+              <% project.links.forEach(function(link) { %>
+              <li><a href="<%= link %>">View Project</a></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Publications Section -->
+        <div class="section">
+          <h2 class="section-title">Publications</h2>
+          <% publications.forEach(function(publication) { %>
+          <div class="publication-item">
+            <div class="publication-title">
+              <%= publication.title %>
+              <span class="publication-year">(<%= publication.year %>)</span>
+            </div>
+            <div class="publication-description">
+              <%= publication.description %>
+            </div>
+            <a href="<%= publication.link %>" class="publication-link"
+              >Read Publication</a
+            >
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="section">
+          <h2 class="section-title">Professional References</h2>
+          <% recommendations.forEach(function(recommendation) { %>
+          <div class="recommendation-item">
+            <div class="recommender-name"><%= recommendation.name %></div>
+            <div class="recommender-position">
+              <%= recommendation.profession %> at <%= recommendation.institute
+              %>
+            </div>
+            <div class="recommender-contact">
+              <span><strong>Phone:</strong> <%= recommendation.phone %></span>
+              <span><strong>Email:</strong> <%= recommendation.email %></span>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

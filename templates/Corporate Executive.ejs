@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= personalInfo.name %> - Executive Resume</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Source Sans Pro", sans-serif;
+        line-height: 1.6;
+        color: #2c3e50;
+        background: #ffffff;
+        font-size: 14px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 5px;
+        background: white;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 0;
+      }
+
+      /* Left Sidebar */
+      .sidebar {
+        background: #f8f9fa;
+        padding: 40px 30px;
+        border-right: 3px solid #34495e;
+      }
+
+      .profile-section {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      .profile-name {
+        font-family: "Crimson Text", serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        letter-spacing: -0.5px;
+      }
+
+      .profile-title {
+        font-size: 1rem;
+        color: #5a6c7d;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+      }
+
+      .contact-section {
+        margin-bottom: 35px;
+      }
+
+      .sidebar-heading {
+        font-family: "Crimson Text", serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #34495e;
+        padding-bottom: 5px;
+      }
+
+      .contact-item {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: flex-start;
+        font-size: 0.9rem;
+      }
+
+      .contact-label {
+        font-weight: 600;
+        color: #34495e;
+        min-width: 60px;
+        margin-right: 10px;
+      }
+
+      .contact-value {
+        flex: 1;
+        word-break: break-word;
+      }
+
+      .contact-value a {
+        color: #2c3e50;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-bottom 0.3s ease;
+      }
+
+      .contact-value a:hover {
+        border-bottom: 1px solid #2c3e50;
+      }
+
+      /* Skills Section in Sidebar */
+      .skills-section {
+        margin-bottom: 35px;
+      }
+
+      .skill-item {
+        background: #ffffff;
+        padding: 8px 12px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        border-left: 3px solid #34495e;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #2c3e50;
+      }
+
+      /* Languages Section in Sidebar */
+      .languages-section {
+        margin-bottom: 35px;
+      }
+
+      .language-item {
+        background: #ffffff;
+        padding: 8px 12px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        border-left: 3px solid #7f8c8d;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #2c3e50;
+      }
+
+      /* Main Content */
+      .main-content {
+        padding: 40px 50px;
+        background: #ffffff;
+      }
+
+      .section {
+        margin-bottom: 45px;
+      }
+
+      .section-title {
+        font-family: "Crimson Text", serif;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #34495e;
+      }
+
+      /* Professional Summary */
+      .summary-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #2c3e50;
+        text-align: justify;
+        font-weight: 400;
+        margin-bottom: 20px;
+      }
+
+      /* Experience Section */
+      .experience-item {
+        margin-bottom: 35px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .experience-item:last-child {
+        border-bottom: none;
+      }
+
+      .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+
+      .job-left {
+        flex: 1;
+      }
+
+      .job-title {
+        font-family: "Crimson Text", serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+      }
+
+      .job-company {
+        font-size: 1.1rem;
+        color: #34495e;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .job-location {
+        font-size: 0.95rem;
+        color: #7f8c8d;
+        font-style: italic;
+      }
+
+      .job-date {
+        font-size: 0.95rem;
+        color: #5a6c7d;
+        font-weight: 600;
+        text-align: right;
+        min-width: 120px;
+      }
+
+      .responsibilities {
+        list-style: none;
+        padding: 0;
+        margin-top: 15px;
+      }
+
+      .responsibilities li {
+        position: relative;
+        padding-left: 20px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+        line-height: 1.6;
+      }
+
+      .responsibilities li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #34495e;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      /* Education Section */
+      .education-item {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .education-item:last-child {
+        border-bottom: none;
+      }
+
+      .degree-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+
+      .degree-title {
+        font-family: "Crimson Text", serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .degree-date {
+        font-size: 0.95rem;
+        color: #5a6c7d;
+        font-weight: 600;
+      }
+
+      .institution {
+        font-size: 1.05rem;
+        color: #34495e;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .education-links {
+        list-style: none;
+        padding: 0;
+        margin-top: 10px;
+      }
+
+      .education-links li {
+        display: inline-block;
+        margin-right: 20px;
+      }
+
+      .education-links a {
+        color: #2c3e50;
+        text-decoration: none;
+        font-size: 0.9rem;
+        padding: 4px 8px;
+        border: 1px solid #bdc3c7;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      .education-links a:hover {
+        background: #ecf0f1;
+        border-color: #95a5a6;
+      }
+
+      /* Projects Section */
+      .project-item {
+        margin-bottom: 30px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .project-item:last-child {
+        border-bottom: none;
+      }
+
+      .project-title {
+        font-family: "Crimson Text", serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 12px;
+      }
+
+      .project-description {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        line-height: 1.6;
+        text-align: justify;
+      }
+
+      .project-tech-section {
+        margin-bottom: 15px;
+      }
+
+      .tech-label {
+        font-weight: 600;
+        color: #34495e;
+        margin-right: 10px;
+      }
+
+      .tech-list {
+        display: inline;
+        color: #5a6c7d;
+        font-style: italic;
+      }
+
+      .project-links {
+        list-style: none;
+        padding: 0;
+      }
+
+      .project-links li {
+        display: inline-block;
+        margin-right: 15px;
+      }
+
+      .project-links a {
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 4px 8px;
+        border: 1px solid #bdc3c7;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      .project-links a:hover {
+        background: #ecf0f1;
+        border-color: #95a5a6;
+      }
+
+      /* Publications Section */
+      .publication-item {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .publication-item:last-child {
+        border-bottom: none;
+      }
+
+      .publication-title {
+        font-family: "Crimson Text", serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+
+      .publication-year {
+        color: #5a6c7d;
+        font-weight: 600;
+        font-style: italic;
+      }
+
+      .publication-description {
+        color: #2c3e50;
+        margin: 12px 0;
+        line-height: 1.6;
+        text-align: justify;
+      }
+
+      .publication-link {
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 4px 8px;
+        border: 1px solid #bdc3c7;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      .publication-link:hover {
+        background: #ecf0f1;
+        border-color: #95a5a6;
+      }
+
+      /* References Section */
+      .reference-item {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        border-left: 4px solid #34495e;
+      }
+
+      .reference-name {
+        font-family: "Crimson Text", serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+      }
+
+      .reference-position {
+        color: #34495e;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .reference-contact {
+        font-size: 0.9rem;
+        color: #5a6c7d;
+      }
+
+      .reference-contact span {
+        display: inline-block;
+        margin-right: 25px;
+      }
+
+      /* Print Styles */
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          color-adjust: exact;
+          font-size: 12px;
+        }
+
+        .container {
+          max-width: none;
+          margin: 10px;
+          box-shadow: none;
+          grid-template-columns: 280px 1fr;
+        }
+
+        .sidebar {
+          padding: 30px 20px;
+        }
+
+        .main-content {
+          padding: 30px 40px;
+        }
+
+        .section {
+          margin-bottom: 35px;
+        }
+
+        .experience-item,
+        .education-item,
+        .project-item,
+        .publication-item,
+        .reference-item {
+          break-inside: avoid;
+          margin-bottom: 20px;
+        }
+
+        .profile-section {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Left Sidebar -->
+      <div class="sidebar">
+        <!-- Profile Section -->
+        <div class="profile-section">
+          <h1 class="profile-name"><%= personalInfo.name %></h1>
+          <div class="profile-title">Executive Professional</div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="contact-section">
+          <h2 class="sidebar-heading">Contact</h2>
+          <div class="contact-item">
+            <span class="contact-label">Email:</span>
+            <span class="contact-value"><%= personalInfo.email %></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Phone:</span>
+            <span class="contact-value"
+              ><%= personalInfo.phoneNumbers.join(', ') %></span
+            >
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">LinkedIn:</span>
+            <span class="contact-value"
+              ><a href="<%= personalInfo.linkedin %>">LinkedIn Profile</a></span
+            >
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Portfolio:</span>
+            <span class="contact-value"
+              ><a href="<%= personalInfo.portfolio %>">View Portfolio</a></span
+            >
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">GitHub:</span>
+            <span class="contact-value"
+              ><a href="<%= personalInfo.github %>">GitHub Profile</a></span
+            >
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Address:</span>
+            <span class="contact-value"><%= personalInfo.address %></span>
+          </div>
+        </div>
+
+        <!-- Core Competencies -->
+        <div class="skills-section">
+          <h2 class="sidebar-heading">Core Competencies</h2>
+          <% hardSkills.forEach(function(skill) { %>
+          <div class="skill-item"><%= skill %></div>
+          <% }); %>
+        </div>
+
+        <!-- Languages -->
+        <div class="languages-section">
+          <h2 class="sidebar-heading">Languages</h2>
+          <% languages.forEach(function(language) { %>
+          <div class="language-item"><%= language %></div>
+          <% }); %>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Executive Summary -->
+        <div class="section">
+          <h2 class="section-title">Executive Summary</h2>
+          <div class="summary-content"><%= aboutMe %></div>
+        </div>
+
+        <!-- Professional Experience -->
+        <div class="section">
+          <h2 class="section-title">Professional Experience</h2>
+          <% workExperience.forEach(function(experience) { %>
+          <div class="experience-item">
+            <div class="job-header">
+              <div class="job-left">
+                <div class="job-title"><%= experience.jobTitle %></div>
+                <div class="job-company"><%= experience.supervisor %></div>
+                <div class="job-location">
+                  <%= experience.city %>, <%= experience.country %>
+                </div>
+              </div>
+              <div class="job-date"><%= experience.dateRange %></div>
+            </div>
+            <ul class="responsibilities">
+              <% experience.responsibilities.forEach(function(responsibility) {
+              %>
+              <li><%= responsibility %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Education -->
+        <div class="section">
+          <h2 class="section-title">Education</h2>
+          <% academicQualifications.forEach(function(education) { %>
+          <div class="education-item">
+            <div class="degree-header">
+              <div class="degree-title"><%= education.degree %></div>
+              <div class="degree-date"><%= education.dateRange %></div>
+            </div>
+            <div class="institution"><%= education.institution %></div>
+            <ul class="education-links">
+              <li>
+                <a href="<%= education.website %>">Institution Website</a>
+              </li>
+              <% if (education.additionalLinks &&
+              education.additionalLinks.length) { %> <%
+              education.additionalLinks.forEach(function(link) { %>
+              <li><a href="<%= link %>">Additional Resource</a></li>
+              <% }); %> <% } %>
+            </ul>
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Key Projects -->
+        <div class="section">
+          <h2 class="section-title">Key Projects</h2>
+          <% projects.forEach(function(project) { %>
+          <div class="project-item">
+            <div class="project-title"><%= project.title %></div>
+            <div class="project-description"><%= project.description %></div>
+
+            <div class="project-tech-section">
+              <span class="tech-label">Technologies:</span>
+              <span class="tech-list"><%= project.languages.join(', ') %></span>
+            </div>
+
+            <% if (project.algorithms && project.algorithms.length) { %>
+            <div class="project-tech-section">
+              <span class="tech-label">Methodologies:</span>
+              <span class="tech-list"
+                ><%= project.algorithms.join(', ') %></span
+              >
+            </div>
+            <% } %>
+
+            <ul class="project-links">
+              <% project.links.forEach(function(link) { %>
+              <li><a href="<%= link %>">View Project</a></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Publications -->
+        <div class="section">
+          <h2 class="section-title">Publications</h2>
+          <% publications.forEach(function(publication) { %>
+          <div class="publication-item">
+            <div class="publication-title">
+              <%= publication.title %>
+              <span class="publication-year">(<%= publication.year %>)</span>
+            </div>
+            <div class="publication-description">
+              <%= publication.description %>
+            </div>
+            <a href="<%= publication.link %>" class="publication-link"
+              >View Publication</a
+            >
+          </div>
+          <% }); %>
+        </div>
+
+        <!-- Professional References -->
+        <div class="section">
+          <h2 class="section-title">Professional References</h2>
+          <% recommendations.forEach(function(recommendation) { %>
+          <div class="reference-item">
+            <div class="reference-name"><%= recommendation.name %></div>
+            <div class="reference-position">
+              <%= recommendation.profession %> at <%= recommendation.institute
+              %>
+            </div>
+            <div class="reference-contact">
+              <span><strong>Phone:</strong> <%= recommendation.phone %></span>
+              <span><strong>Email:</strong> <%= recommendation.email %></span>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

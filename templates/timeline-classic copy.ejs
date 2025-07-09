@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= personalInfo.name %> - Timeline CV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@300;400;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #333;
+        padding: 40px;
+        background: #fff;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Merriweather", serif;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      h2.section-title {
+        font-size: 18px;
+        border-left: 5px solid #2980b9;
+        padding-left: 10px;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+      }
+
+      .contact-info {
+        margin-bottom: 25px;
+      }
+
+      .contact-info div {
+        margin-bottom: 4px;
+      }
+
+      .icons a {
+        margin-right: 12px;
+        text-decoration: none;
+        font-size: 14px;
+        color: #2980b9;
+      }
+
+      .timeline {
+        position: relative;
+        margin-left: 20px;
+        padding-left: 35px; /* FIXED: Increased from 20px */
+        border-left: 2px solid #bdc3c7;
+      }
+
+      .timeline-entry {
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .timeline-entry::before {
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: -18px; /* Shifted left to not interfere with text */
+        width: 12px;
+        height: 12px;
+        background-color: #2980b9;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 0 2px #2980b9;
+      }
+
+      .entry-title {
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .entry-sub {
+        font-size: 12px;
+        font-style: italic;
+        color: #666;
+        margin-bottom: 6px;
+      }
+
+      ul {
+        margin-top: 8px;
+        padding-left: 18px;
+      }
+
+      li {
+        margin-bottom: 6px;
+      }
+
+      .skills,
+      .languages {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .tag {
+        background: #ecf0f1;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+      }
+
+      .section {
+        margin-bottom: 30px;
+      }
+
+      @media print {
+        body {
+          padding: 20px;
+          font-size: 12px;
+        }
+
+        .section {
+          margin-bottom: 25px;
+        }
+
+        .timeline-entry {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <h1><%= personalInfo.name %></h1>
+      <div class="contact-info">
+        <div>Email: <%= personalInfo.email %></div>
+        <div>Phone: <%= personalInfo.phoneNumbers?.join(' / ') %></div>
+        <div>Address: <%= personalInfo.address %></div>
+        <div class="icons">
+          <% if (personalInfo.linkedin) { %>
+          <a href="<%= personalInfo.linkedin %>" target="_blank">💼 LinkedIn</a>
+          <% } %> <% if (personalInfo.portfolio) { %>
+          <a href="<%= personalInfo.portfolio %>" target="_blank"
+            >🌐 Portfolio</a
+          >
+          <% } %> <% if (personalInfo.github) { %>
+          <a href="<%= personalInfo.github %>" target="_blank">🐙 GitHub</a>
+          <% } %>
+        </div>
+      </div>
+    </header>
+
+    <!-- Summary -->
+    <% if (aboutMe) { %>
+    <section class="section">
+      <h2 class="section-title">Summary</h2>
+      <div><%= aboutMe %></div>
+    </section>
+    <% } %>
+
+    <!-- Experience -->
+    <% if (workExperience && workExperience.length) { %>
+    <section class="section">
+      <h2 class="section-title">Experience</h2>
+      <div class="timeline">
+        <% workExperience.forEach(exp => { %>
+        <div class="timeline-entry">
+          <div class="entry-title">
+            <%= exp.jobTitle %> – <%= exp.supervisor %>
+          </div>
+          <div class="entry-sub">
+            <%= exp.city %>, <%= exp.country %> | <%= exp.dateRange %>
+          </div>
+          <% if (exp.responsibilities && exp.responsibilities.length) { %>
+          <ul>
+            <% exp.responsibilities.forEach(r => { %>
+            <li><%= r %></li>
+            <% }) %>
+          </ul>
+          <% } %>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Education -->
+    <% if (academicQualifications && academicQualifications.length) { %>
+    <section class="section">
+      <h2 class="section-title">Education</h2>
+      <div class="timeline">
+        <% academicQualifications.forEach(edu => { %>
+        <div class="timeline-entry">
+          <div class="entry-title">
+            <%= edu.degree %> – <%= edu.institution %>
+          </div>
+          <div class="entry-sub"><%= edu.dateRange %></div>
+          <% if (edu.website) { %>
+          <a href="<%= edu.website %>" target="_blank">🔗 Website</a>
+          <% } %>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Projects -->
+    <% if (projects && projects.length) { %>
+    <section class="section">
+      <h2 class="section-title">Projects</h2>
+      <div class="timeline">
+        <% projects.forEach(proj => { %>
+        <div class="timeline-entry">
+          <div class="entry-title"><%= proj.title %></div>
+          <div class="entry-sub">
+            <%= proj.languages?.join(', ') %> <% if (proj.algorithms?.length) {
+            %> | <%= proj.algorithms.join(', ') %> <% } %>
+          </div>
+          <div><%= proj.description %></div>
+          <% if (proj.links?.length) { %>
+          <a href="<%= proj.links[0] %>" target="_blank">🔗 View Project</a>
+          <% } %>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Publications -->
+    <% if (publications && publications.length) { %>
+    <section class="section">
+      <h2 class="section-title">Publications</h2>
+      <div class="timeline">
+        <% publications.forEach(pub => { %>
+        <div class="timeline-entry">
+          <div class="entry-title"><%= pub.title %> (<%= pub.year %>)</div>
+          <div><%= pub.description %></div>
+          <% if (pub.link) { %>
+          <a href="<%= pub.link %>" target="_blank">🔗 Read</a>
+          <% } %>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Skills -->
+    <% if (hardSkills && hardSkills.length) { %>
+    <section class="section">
+      <h2 class="section-title">Skills</h2>
+      <div class="skills">
+        <% hardSkills.forEach(skill => { %>
+        <div class="tag"><%= skill %></div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Languages -->
+    <% if (languages && languages.length) { %>
+    <section class="section">
+      <h2 class="section-title">Languages</h2>
+      <div class="languages">
+        <% languages.forEach(lang => { %>
+        <div class="tag"><%= lang %></div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- References -->
+    <% if (recommendations && recommendations.length) { %>
+    <section class="section">
+      <h2 class="section-title">References</h2>
+      <div class="timeline">
+        <% recommendations.forEach(ref => { %>
+        <div class="timeline-entry">
+          <div class="entry-title"><%= ref.name %></div>
+          <div class="entry-sub">
+            <%= ref.profession %> at <%= ref.institute %>
+          </div>
+          <div>📞 <%= ref.phone %> | ✉️ <%= ref.email %></div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
+  </body>
+</html>

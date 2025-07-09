@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= personalInfo.name %> - Resume</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+        font-size: 14px;
+        color: #2c3e50;
+        background: #fff;
+        line-height: 1.5;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        max-width: 1000px;
+        margin: 40px auto;
+        border: 1px solid #ddd;
+      }
+
+      .sidebar {
+        background: #f4f6f8;
+        padding: 24px;
+        border-right: 3px solid #2c3e50;
+      }
+
+      .main {
+        padding: 36px 32px 40px;
+      }
+
+      h1 {
+        font-size: 24px;
+        color: #2c3e50;
+        margin-bottom: 14px;
+      }
+
+      h2 {
+        font-size: 18px;
+        color: #2c3e50;
+        margin-top: 28px;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 6px;
+      }
+
+      .contact-item {
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+
+      .section {
+        margin-bottom: 30px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .job-title {
+        font-weight: bold;
+        margin-bottom: 2px;
+      }
+
+      .job-meta {
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 6px;
+      }
+
+      p {
+        margin-bottom: 10px;
+      }
+
+      .ulist {
+        list-style: disc;
+        padding-left: 18px;
+        margin-bottom: 14px;
+      }
+
+      .ulist li {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .skills-list,
+      .languages-list {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 10px;
+      }
+
+      .skills-list li,
+      .languages-list li {
+        margin-bottom: 6px;
+        font-size: 13px;
+      }
+
+      .link {
+        color: #2c3e50;
+        text-decoration: none;
+      }
+
+      .link:hover {
+        text-decoration: underline;
+      }
+
+      /* Print fix: Ensure consistent margins on all printed pages */
+      @media print {
+        html,
+        body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          font-size: 12px;
+          -webkit-print-color-adjust: exact;
+        }
+
+        .container {
+          margin: 0;
+          width: auto;
+          max-width: none;
+          display: block;
+          border: none;
+        }
+
+        .sidebar,
+        .main {
+          padding-top: 30mm;
+          padding-bottom: 25mm;
+          padding-left: 15mm;
+          padding-right: 15mm;
+        }
+
+        .section,
+        .job,
+        .edu-item,
+        .project-item,
+        .publication-item,
+        .recommendation-item {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        h2 {
+          page-break-after: avoid;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <h1><%= personalInfo.name %></h1>
+        <div class="contact">
+          <div class="contact-item">
+            <strong>Email:</strong> <%= personalInfo.email %>
+          </div>
+          <div class="contact-item">
+            <strong>Phone:</strong> <%= personalInfo.phoneNumbers.join(', ') %>
+          </div>
+          <div class="contact-item">
+            <strong>LinkedIn:</strong>
+            <a class="link" href="<%= personalInfo.linkedin %>">Profile</a>
+          </div>
+          <div class="contact-item">
+            <strong>Portfolio:</strong>
+            <a class="link" href="<%= personalInfo.portfolio %>">Website</a>
+          </div>
+          <div class="contact-item">
+            <strong>GitHub:</strong>
+            <a class="link" href="<%= personalInfo.github %>">GitHub</a>
+          </div>
+          <div class="contact-item">
+            <strong>Address:</strong> <%= personalInfo.address %>
+          </div>
+        </div>
+
+        <h2>Skills</h2>
+        <ul class="skills-list">
+          <% hardSkills.forEach(function(skill) { %>
+          <li><%= skill %></li>
+          <% }); %>
+        </ul>
+
+        <h2>Languages</h2>
+        <ul class="languages-list">
+          <% languages.forEach(function(language) { %>
+          <li><%= language %></li>
+          <% }); %>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main">
+        <div class="section">
+          <h2>About Me</h2>
+          <p><%= aboutMe %></p>
+        </div>
+
+        <div class="section">
+          <h2>Work Experience</h2>
+          <% workExperience.forEach(function(exp) { %>
+          <div class="job">
+            <div class="job-title">
+              <%= exp.jobTitle %> - <%= exp.supervisor %>
+            </div>
+            <div class="job-meta">
+              <%= exp.city %>, <%= exp.country %> | <%= exp.dateRange %>
+            </div>
+            <ul class="ulist">
+              <% exp.responsibilities.forEach(function(item) { %>
+              <li><%= item %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% }); %>
+        </div>
+
+        <div class="section">
+          <h2>Education</h2>
+          <% academicQualifications.forEach(function(edu) { %>
+          <div class="edu-item">
+            <div class="job-title">
+              <%= edu.degree %> - <%= edu.institution %>
+            </div>
+            <div class="job-meta"><%= edu.dateRange %></div>
+            <a class="link" href="<%= edu.website %>"><%= edu.website %></a>
+            <% if (edu.additionalLinks && edu.additionalLinks.length) { %>
+            <ul class="ulist">
+              <% edu.additionalLinks.forEach(function(link) { %>
+              <li><a class="link" href="<%= link %>"><%= link %></a></li>
+              <% }); %>
+            </ul>
+            <% } %>
+          </div>
+          <% }); %>
+        </div>
+
+        <div class="section">
+          <h2>Projects</h2>
+          <% projects.forEach(function(proj) { %>
+          <div class="project-item">
+            <div class="job-title"><%= proj.title %></div>
+            <p><%= proj.description %></p>
+            <p><strong>Languages:</strong> <%= proj.languages.join(', ') %></p>
+            <p>
+              <strong>Algorithms:</strong> <%= proj.algorithms.join(', ') %>
+            </p>
+            <ul class="ulist">
+              <% proj.links.forEach(function(link) { %>
+              <li><a class="link" href="<%= link %>"><%= link %></a></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% }); %>
+        </div>
+
+        <div class="section">
+          <h2>Publications</h2>
+          <% publications.forEach(function(pub) { %>
+          <div class="publication-item">
+            <div class="job-title"><%= pub.title %> (<%= pub.year %>)</div>
+            <p><%= pub.description %></p>
+            <a class="link" href="<%= pub.link %>"><%= pub.link %></a>
+          </div>
+          <% }); %>
+        </div>
+
+        <div class="section">
+          <h2>Recommendations</h2>
+          <% recommendations.forEach(function(rec) { %>
+          <div class="recommendation-item">
+            <strong><%= rec.name %></strong>, <%= rec.profession %> at <%=
+            rec.institute %><br />
+            <strong>Phone:</strong> <%= rec.phone %><br />
+            <strong>Email:</strong> <%= rec.email %>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
