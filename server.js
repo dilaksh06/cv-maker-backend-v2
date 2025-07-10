@@ -4,6 +4,9 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import generateRoute from './routes/generate.js';
+import generateDocxRoute from './routes/generateDocx.js';
+
+
 
 const app = express();
 
@@ -12,6 +15,7 @@ app.use(cors());  // Enable CORS
 app.use(bodyParser.json());  // Parse JSON
 app.use(express.urlencoded({ extended: true }));  // Parse form data
 
+app.use('/generate', generateDocxRoute);
 // EJS Configuration
 app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'templates'));  // Absolute path for reliability
