@@ -11,11 +11,7 @@ const jsxTemplateMap = {
   "template-jsx-modern-elegant": {
     componentPath: "../templates/classic/modern-elegant/ModernElegant.jsx",
     cssPath: "../templates/classic/modern-elegant/modern-elegant.css",
-  },
-  "template-jsx-clean-white": {
-    componentPath: "../templates/clean/clean-white/CleanWhite.jsx",
-    cssPath: "../templates/clean/clean-white/clean-white.css",
-  },
+  }
   // ✅ Add more here as you add templates
 };
 
