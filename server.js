@@ -1,86 +1,44 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import fs from 'fs';
-import path from 'path';
+import path from 'path'; // Still needed for path.join
 
-import generateRoute from './routes/generate.js';
-import generateDocxRoute from './routes/generateDocx.js';
+// ONLY keep the route for HTML to PDF generation
 import generateHtmlPdfRoute from './routes/generateHtmlPdf.js';
-import generateJsxRoute from './routes/generateJsx.js';
 
 const app = express();
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(cors()); // Enable CORS for all routes
+app.use(bodyParser.json({ limit: '10mb' })); // To parse JSON request bodies, increased limit for large HTML content
+app.use(express.urlencoded({ extended: true })); // For URL-encoded bodies (less common for this use case, but harmless)
 
-// UTF-8 for all HTML responses
+// Set UTF-8 for all HTML responses (though for PDF, content-type will change)
 app.use((req, res, next) => {
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  next();
+    // This header is more relevant for direct HTML responses.
+    // For PDF generation, the generateHtmlPdfRoute will set application/pdf.
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    next();
 });
 
-// View engine setup for EJS
+// View engine setup for EJS (can be removed if EJS is no longer used anywhere in the backend)
+// If generateHtmlPdfRoute doesn't rely on EJS or other future routes don't, this can go.
+// For now, keeping it in case you have other EJS-based backend functionalities.
 app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'templates'));
 
-// 🔁 Template listing: EJS + JSX templates
-const getTemplateList = () => {
-  const templates = [];
-
-  // EJS Templates
-  try {
-    const files = fs.readdirSync(app.get('views'));
-    files
-      .filter(file => file.endsWith('.ejs'))
-      .forEach(file => {
-        templates.push({
-          id: path.basename(file, '.ejs'),
-          name: path.basename(file, '.ejs').replace(/-/g, ' '),
-          type: 'ejs',
-        });
-      });
-  } catch (err) {
-    console.error("Error reading EJS templates:", err);
-  }
-
-  // JSX Templates (Manually listed for now)
-  const jsxTemplates = [
-    {
-      id: 'template-jsx-modern-elegant',
-      name: 'Modern Elegant',
-      type: 'jsx',
-    },
-    {
-      id: 'template-jsx-clean-white',
-      name: 'Clean White',
-      type: 'jsx',
-    },
-  ];
-
-  return [...templates, ...jsxTemplates];
-};
-
 // Routes
-app.get('/api/templates', (req, res) => {
-  res.json(getTemplateList());
-});
-
-app.use('/generate', generateRoute); // EJS → PDF
-app.use('/generate', generateDocxRoute); // EJS → DOCX
-app.use('/generate/html-pdf', generateHtmlPdfRoute); // JSX → HTML → PDF
-app.use('/generate-jsx', generateJsxRoute); // JSX → HTML
+// ONLY include the route for HTML to PDF conversion
+app.use('/generate/html-pdf', generateHtmlPdfRoute);
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Server Error');
+    console.error(err.stack);
+    res.status(500).send('Server Error');
 });
 
 // Server Start
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`✅ Server running at: http://localhost:${PORT}`);
+    console.log(`✅ Server running at: http://localhost:${PORT}`);
 });

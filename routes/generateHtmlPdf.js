@@ -38,6 +38,9 @@ router.post("/", async (req, res) => {
     // 🎨 Emulate screen media type.
     // This is crucial because your CSS is likely written for 'screen' media.
     // Puppeteer's default for `page.pdf` might be 'print', which can alter styles.
+    // If your PDF output doesn't match the browser preview, consider ensuring
+    // the HTML string sent here *does not* contain @media print rules in its <style> block,
+    // as page.pdf might still apply print styles regardless of emulateMediaType.
     await page.emulateMediaType("screen");
 
     // Optional: For debugging, save the HTML that Puppeteer processes
@@ -47,12 +50,11 @@ router.post("/", async (req, res) => {
     const pdfBuffer = await page.pdf({
       format: "A4", // Set the paper format explicitly to A4.
       printBackground: true, // Absolutely ESSENTIAL for backgrounds (like your sidebar color)
-                             // and images to be rendered in the PDF.
+                               // and images to be rendered in the PDF.
       margin: {
-        // 🚨 CRITICAL CHANGE: Setting all margins to 0.
-        // This will make the PDF content extend to the very edges of the A4 page.
-        // Ensure your CSS has adequate internal padding on .cv-container, .cv-sidebar, .cv-main
-        // if you want any whitespace between your content and the page edge.
+        // Setting all margins to 5mm.
+        // Your CSS should handle internal padding within the .cv-container
+        // if you want more whitespace between your content and the page edge.
         top: "5mm",
         right: "5mm",
         bottom: "5mm",
