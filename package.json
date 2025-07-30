@@ -13,10 +13,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "angular-expressions": "^1.5.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
+    "docx": "^9.5.1",
+    "docxtemplater": "^3.65.2",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "html-docx-js": "^0.3.1",
+    "html-to-docx": "^1.8.0",
+    "pizzip": "^3.2.0",
     "puppeteer": "^24.8.0"
   },
   "devDependencies": {
